@@ -43,7 +43,6 @@
             this.InputTextBox = new System.Windows.Forms.TextBox();
             this.CB_SelectedPolygon = new System.Windows.Forms.ComboBox();
             this.B_Apply = new System.Windows.Forms.Button();
-            this.Cancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,9 +169,9 @@
             // 
             this.B_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.B_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.B_Clear.Location = new System.Drawing.Point(13, 568);
+            this.B_Clear.Location = new System.Drawing.Point(11, 568);
             this.B_Clear.Name = "B_Clear";
-            this.B_Clear.Size = new System.Drawing.Size(351, 43);
+            this.B_Clear.Size = new System.Drawing.Size(352, 43);
             this.B_Clear.TabIndex = 10;
             this.B_Clear.Text = "Очистить";
             this.B_Clear.UseVisualStyleBackColor = false;
@@ -207,24 +206,13 @@
             // 
             this.B_Apply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.B_Apply.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.B_Apply.Location = new System.Drawing.Point(12, 519);
+            this.B_Apply.Location = new System.Drawing.Point(11, 519);
             this.B_Apply.Name = "B_Apply";
-            this.B_Apply.Size = new System.Drawing.Size(176, 43);
+            this.B_Apply.Size = new System.Drawing.Size(352, 43);
             this.B_Apply.TabIndex = 14;
             this.B_Apply.Text = "Применить";
             this.B_Apply.UseVisualStyleBackColor = false;
             this.B_Apply.Click += new System.EventHandler(this.B_Apply_Click);
-            // 
-            // Cancel
-            // 
-            this.Cancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.Cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Cancel.Location = new System.Drawing.Point(188, 519);
-            this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(176, 43);
-            this.Cancel.TabIndex = 15;
-            this.Cancel.Text = "Отменить";
-            this.Cancel.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -232,7 +220,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1182, 653);
-            this.Controls.Add(this.Cancel);
             this.Controls.Add(this.B_Apply);
             this.Controls.Add(this.CB_SelectedPolygon);
             this.Controls.Add(this.InputTextBox);
@@ -252,7 +239,7 @@
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Affin";
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -275,7 +262,6 @@
         private System.Windows.Forms.ComboBox CB_SelectedPolygon;
         private System.Windows.Forms.Button B_Apply;
         private System.Windows.Forms.PictureBox MainPictureBox;
-        private System.Windows.Forms.Button Cancel;
     }
 }
 
