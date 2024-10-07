@@ -31,6 +31,7 @@ namespace Lab4
         bool _pointFlag = true;
         Point _tempPoint;
         List<Point> _tempEdge;
+        List<Point> _pointsT4;
 
         public Form1()
         {
@@ -60,6 +61,7 @@ namespace Lab4
 
             _tempPoint = new Point();
             _tempEdge = new List<Point>();
+            _pointsT4 = new List<Point>();
 
             CB_SelectedPolygon.Items.Clear();
             CB_SelectedPolygon.Items.Add("");
@@ -222,11 +224,82 @@ namespace Lab4
         //===================
         //      Task4
         //===================
+        
         public void FindPoint(object sender, MouseEventArgs e)
         {
-            //ToDo Поиск точки пересечения двух ребер (добавление второго ребра мышкой, динамически).
+            if (e.Button == MouseButtons.Left)
+            {
+                _pointsT4.Add(e.Location);
+                _bm.SetPixel(e.Location.X, e.Location.Y, _polygonColor);
+                _intFlag++;
+                if (_pointsT4.Count % 2 == 0)
+                {
+                    _g.DrawLine(new Pen(_polygonColor), _pointsT4[_pointsT4.Count - 2], _pointsT4[_pointsT4.Count - 1]);
+                }
+                MainPictureBox.Image = _bm;
+                if (_pointsT4.Count == 4)
+                {
+                    Point a = _pointsT4[_pointsT4.Count - 4];
+                    Point b = _pointsT4[_pointsT4.Count - 3];
+                    Point c = _pointsT4[_pointsT4.Count - 2];
+                    Point d = _pointsT4[_pointsT4.Count - 1];
+                    Point n = new Point(-(d.Y - c.Y), d.X - c.X);
+                    float t = -(float)(n.X * (a.X - c.X) + n.Y * (a.Y - c.Y)) / (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y));
+                    if (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y) == 0)
+                    {
+                        InfoTextBox.Text = "Прямые параллельны";
+                    }
+                    else
+                    {
+                        Point res = new Point(a.X + (int)(t * (b.X - a.X)), a.Y + (int)(t * (b.Y - a.Y)));
+                        _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
+                        MainPictureBox.Image = _bm;
+                        if (res.X >= Math.Min(a.X, b.X) && res.X <= Math.Max(a.X, b.X) && res.Y >= Math.Min(a.Y, b.Y) && res.Y <= Math.Max(a.Y, b.Y)
+                            && res.X >= Math.Min(c.X, d.X) && res.X <= Math.Max(c.X, d.X) && res.Y >= Math.Min(c.Y, d.Y) && res.Y <= Math.Max(c.Y, d.Y))
+                            InfoTextBox.Text = $"Точка пересечения - ({res.X}, {res.Y}).";
+                        else InfoTextBox.Text = $"Рёбра не пересекаются.";
+                    }
+                }
+                else if (_pointsT4.Count >= 4 && _pointsT4.Count % 2 == 0)
+                {
+                    InfoTextBox.Text = "";
+                    for (int i = _pointsT4.Count - 3; i > 0; i -= 2)
+                    {
+                        Point a = _pointsT4[i - 1];
+                        Point b = _pointsT4[i];
+                        Point c = _pointsT4[_pointsT4.Count - 2];
+                        Point d = _pointsT4[_pointsT4.Count - 1];
+                        Point n = new Point(-(d.Y - c.Y), d.X - c.X);
 
-            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                        float t = -(float)(n.X * (a.X - c.X) + n.Y * (a.Y - c.Y)) / (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y));
+                        if (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y) == 0)
+                        {
+                            InfoTextBox.Text += "Прямые параллельны\n";
+                        }
+                        else
+                        {
+                            Point res = new Point(a.X + (int)(t * (b.X - a.X)), a.Y + (int)(t * (b.Y - a.Y)));
+                            if (res.X >= Math.Min(a.X, b.X) && res.X <= Math.Max(a.X, b.X) && res.Y >= Math.Min(a.Y, b.Y) && res.Y <= Math.Max(a.Y, b.Y)
+                                && res.X >= Math.Min(c.X, d.X) && res.X <= Math.Max(c.X, d.X) && res.Y >= Math.Min(c.Y, d.Y) && res.Y <= Math.Max(c.Y, d.Y))
+                            {
+                                InfoTextBox.Text += $"Точка пересечения - ({res.X}, {res.Y}).\n";
+                                _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
+                                MainPictureBox.Image = _bm;
+                            }
+                            else InfoTextBox.Text += $"Рёбра не пересекаются.\n";
+                        }
+                    }
+                }
+            }
+
+            else if (e.Button == MouseButtons.Right)
+            {
+                _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                ButtonsEnabler(true);
+                _pointsT4.Clear();
+                DrawPolygons();
+                InfoTextBox.Text = "";
+            }
         }
 
         //===================
