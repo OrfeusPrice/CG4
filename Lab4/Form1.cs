@@ -177,11 +177,37 @@ namespace Lab4
         //===================
         public void PointRotate(object sender, MouseEventArgs e)
         {
+            if (_pointFlag)
+            {
+                _g = Graphics.FromImage(MainPictureBox.Image);
+                _tempPoint = e.Location;
 
+                _points.Add(_tempPoint);
+                _polygons.Add(new List<Point>(_points));
+                _points.Clear();
+
+                _g.DrawRectangle(new Pen(Color.Orange, 2), new Rectangle(_tempPoint.X, _tempPoint.Y, 2, 2));
+                MainPictureBox.Image = _bm;
+                _pointFlag = false;
+            }
         }
         public void ApplyPointRotate(object sender, EventArgs e)
         {
+            int rotation = 0;
+            if (CB_SelectedPolygon.SelectedIndex == 0 || !int.TryParse(InputTextBox.Text, out rotation) || _pointFlag)
+            {
+                InfoTextBox.Text = "Ошибка. Поставьте точку, выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" угол поворота";
+                return;
+            }
 
+            for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
+                _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = RotatePoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], _tempPoint, rotation);
+            _curMode = new Mode(this);
+            ButtonsEnabler(true);
+
+            _polygons.Remove(_polygons.Last());
+            DrawPolygons();
+            _pointFlag = true;
         }
         //===================
         //      Task33
@@ -242,6 +268,7 @@ namespace Lab4
             //ToDo После выбора точки и полигона нажать на кнопку "Применить" и написать, принадлежит точка или нет
 
             _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+            ButtonsEnabler(true); //Включаем кнопочки
         }
 
         //===================
@@ -304,6 +331,7 @@ namespace Lab4
         {
             if (IsHasPolygons())
             {
+                InfoTextBox.Text = "Поставьте точку, выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" угол поворота";
                 ButtonsEnabler(false);
                 _curMode = new MTask32(this);
             }
