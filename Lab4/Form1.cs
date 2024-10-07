@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Lab4.ModeManager;
+using static Lab4.AffineTransform;
 
 namespace Lab4
 {
@@ -34,17 +35,19 @@ namespace Lab4
         public Form1()
         {
             InitializeComponent();
-            _buttons = new List<Button>();
-            _buttons.Add(B_DrawPoly);
-            _buttons.Add(B_MovePoly);
-            _buttons.Add(B_PointRotate);
-            _buttons.Add(B_CenterRotate);
-            _buttons.Add(B_PointScale);
-            _buttons.Add(B_CenterScale);
-            _buttons.Add(B_FindPoint);
-            _buttons.Add(B_Check);
-            _buttons.Add(B_Classification);
-            _buttons.Add(B_Clear);
+            _buttons = new List<Button>
+            {
+                B_DrawPoly,
+                B_MovePoly,
+                B_PointRotate,
+                B_CenterRotate,
+                B_PointScale,
+                B_CenterScale,
+                B_FindPoint,
+                B_Check,
+                B_Classification,
+                B_Clear
+            };
 
             _curMode = new Mode(this);
             _polygons = new List<List<Point>>();
@@ -140,10 +143,32 @@ namespace Lab4
         //===================
         public void MovePoly(object sender, MouseEventArgs e)
         {
-
+            return;
         }
+
         public void ApplyMovePoly(object sender, EventArgs e)
         {
+            string[] input = InputTextBox.Text.Split(' ');
+            int dx, dy;
+
+            if (input.Length != 2 || (!int.TryParse(input[0], out dx) || !int.TryParse(input[1], out dy)))
+            {
+                InfoTextBox.Text = "Ошибка. Вы должны ввести две координаты X и Y: 2 целых числа через пробел, пример ввода: 2 3";
+                return;
+            }
+            else if (CB_SelectedPolygon.SelectedIndex == 0)
+            {
+                InfoTextBox.Text = "Ошибка. Вы не выбрали полигон";
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
+                    _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = GetMovedPoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], dx, dy);
+                ButtonsEnabler(true);
+                DrawPolygons();
+                _curMode = new Mode(this);
+            }
 
         }
 
@@ -200,6 +225,8 @@ namespace Lab4
         public void FindPoint(object sender, MouseEventArgs e)
         {
             //ToDo Поиск точки пересечения двух ребер (добавление второго ребра мышкой, динамически).
+
+            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
         }
 
         //===================
@@ -208,10 +235,13 @@ namespace Lab4
         public void Check(object sender, MouseEventArgs e)
         {
             //ToDo Проверка принадлежит ли заданная пользователем (с помощью мыши) точка выпуклому и невыпуклому полигонам
+
         }
         public void ApplyCheck(object sender, EventArgs e)
         {
             //ToDo После выбора точки и полигона нажать на кнопку "Применить" и написать, принадлежит точка или нет
+
+            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
         }
 
         //===================
@@ -220,6 +250,8 @@ namespace Lab4
         public void Classification(object sender, MouseEventArgs e)
         {
             //ToDo Классифицировать положение точки относительно ребра (справа или слева)
+
+            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
         }
 
         //===================
@@ -239,6 +271,16 @@ namespace Lab4
         private void MainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             _curMode.DoSmth(sender, e);
+        }
+
+        private void B_Apply_Click(object sender, EventArgs e)
+        {
+            _curMode?.Apply(sender, e);
+        }
+
+        private void CB_SelectedPolygon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DrawPolygons();
         }
 
         private void B_DrawPoly_Click(object sender, EventArgs e)
@@ -313,16 +355,6 @@ namespace Lab4
         {
             ButtonsEnabler(false);
             _curMode = new MTask6(this);
-        }
-
-        private void B_Apply_Click(object sender, EventArgs e)
-        {
-            _curMode?.Apply(sender, e);
-        }
-
-        private void CB_SelectedPolygon_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DrawPolygons();
         }
     }
 }
