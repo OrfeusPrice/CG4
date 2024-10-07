@@ -43,6 +43,8 @@
             this.InputTextBox = new System.Windows.Forms.TextBox();
             this.CB_SelectedPolygon = new System.Windows.Forms.ComboBox();
             this.B_Apply = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +52,7 @@
             // 
             this.MainPictureBox.BackColor = System.Drawing.SystemColors.Window;
             this.MainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MainPictureBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.MainPictureBox.Location = new System.Drawing.Point(370, 12);
             this.MainPictureBox.Name = "MainPictureBox";
             this.MainPictureBox.Size = new System.Drawing.Size(800, 630);
@@ -60,6 +63,7 @@
             // B_DrawPoly
             // 
             this.B_DrawPoly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_DrawPoly.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_DrawPoly.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_DrawPoly.Location = new System.Drawing.Point(13, 13);
             this.B_DrawPoly.Name = "B_DrawPoly";
@@ -72,6 +76,7 @@
             // B_MovePoly
             // 
             this.B_MovePoly.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_MovePoly.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_MovePoly.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_MovePoly.Location = new System.Drawing.Point(13, 42);
             this.B_MovePoly.Name = "B_MovePoly";
@@ -84,6 +89,7 @@
             // B_PointRotate
             // 
             this.B_PointRotate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_PointRotate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_PointRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_PointRotate.Location = new System.Drawing.Point(13, 71);
             this.B_PointRotate.Name = "B_PointRotate";
@@ -96,6 +102,7 @@
             // B_CenterRotate
             // 
             this.B_CenterRotate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_CenterRotate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_CenterRotate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_CenterRotate.Location = new System.Drawing.Point(13, 100);
             this.B_CenterRotate.Name = "B_CenterRotate";
@@ -108,6 +115,7 @@
             // B_PointScale
             // 
             this.B_PointScale.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_PointScale.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_PointScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_PointScale.Location = new System.Drawing.Point(13, 129);
             this.B_PointScale.Name = "B_PointScale";
@@ -120,6 +128,7 @@
             // B_CenterScale
             // 
             this.B_CenterScale.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_CenterScale.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_CenterScale.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_CenterScale.Location = new System.Drawing.Point(13, 158);
             this.B_CenterScale.Name = "B_CenterScale";
@@ -132,6 +141,7 @@
             // B_FindPoint
             // 
             this.B_FindPoint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_FindPoint.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_FindPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_FindPoint.Location = new System.Drawing.Point(13, 187);
             this.B_FindPoint.Name = "B_FindPoint";
@@ -144,6 +154,7 @@
             // B_Check
             // 
             this.B_Check.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_Check.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Check.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_Check.Location = new System.Drawing.Point(13, 216);
             this.B_Check.Name = "B_Check";
@@ -156,6 +167,7 @@
             // B_Classification
             // 
             this.B_Classification.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.B_Classification.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Classification.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.B_Classification.Location = new System.Drawing.Point(13, 245);
             this.B_Classification.Name = "B_Classification";
@@ -168,8 +180,9 @@
             // B_Clear
             // 
             this.B_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.B_Clear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.B_Clear.Location = new System.Drawing.Point(11, 568);
+            this.B_Clear.Location = new System.Drawing.Point(12, 567);
             this.B_Clear.Name = "B_Clear";
             this.B_Clear.Size = new System.Drawing.Size(352, 43);
             this.B_Clear.TabIndex = 10;
@@ -189,24 +202,27 @@
             // 
             // InputTextBox
             // 
-            this.InputTextBox.Location = new System.Drawing.Point(12, 460);
+            this.InputTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.InputTextBox.Location = new System.Drawing.Point(90, 460);
             this.InputTextBox.Name = "InputTextBox";
-            this.InputTextBox.Size = new System.Drawing.Size(352, 22);
+            this.InputTextBox.Size = new System.Drawing.Size(274, 22);
             this.InputTextBox.TabIndex = 12;
             // 
             // CB_SelectedPolygon
             // 
+            this.CB_SelectedPolygon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CB_SelectedPolygon.FormattingEnabled = true;
-            this.CB_SelectedPolygon.Location = new System.Drawing.Point(12, 489);
+            this.CB_SelectedPolygon.Location = new System.Drawing.Point(90, 488);
             this.CB_SelectedPolygon.Name = "CB_SelectedPolygon";
-            this.CB_SelectedPolygon.Size = new System.Drawing.Size(352, 24);
+            this.CB_SelectedPolygon.Size = new System.Drawing.Size(274, 24);
             this.CB_SelectedPolygon.TabIndex = 13;
             // 
             // B_Apply
             // 
             this.B_Apply.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.B_Apply.Cursor = System.Windows.Forms.Cursors.Hand;
             this.B_Apply.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.B_Apply.Location = new System.Drawing.Point(11, 519);
+            this.B_Apply.Location = new System.Drawing.Point(12, 518);
             this.B_Apply.Name = "B_Apply";
             this.B_Apply.Size = new System.Drawing.Size(352, 43);
             this.B_Apply.TabIndex = 14;
@@ -214,12 +230,32 @@
             this.B_Apply.UseVisualStyleBackColor = false;
             this.B_Apply.Click += new System.EventHandler(this.B_Apply_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 460);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 16);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Значение";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 491);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 16);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Полигон";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.B_Apply);
             this.Controls.Add(this.CB_SelectedPolygon);
             this.Controls.Add(this.InputTextBox);
@@ -262,6 +298,8 @@
         private System.Windows.Forms.ComboBox CB_SelectedPolygon;
         private System.Windows.Forms.Button B_Apply;
         private System.Windows.Forms.PictureBox MainPictureBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

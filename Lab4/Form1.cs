@@ -317,6 +317,5 @@ namespace Lab4
         {
             _curMode?.Apply(sender, e);
         }
-
     }
 }
