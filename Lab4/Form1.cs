@@ -110,7 +110,7 @@ namespace Lab4
             else if (e.Button == MouseButtons.Right && _points.Count != 0)
             {
                 _polygons.Add(new List<Point>(_points));
-                CB_SelectedPolygon.Items.Add($"polygon{_polygons.Count}");
+                CB_SelectedPolygon.Items.Add($"P{_polygons.Count}");
                 _points.Clear();
                 _curMode = new Mode(this);
                 InfoTextBox.Text = "";
@@ -243,6 +243,7 @@ namespace Lab4
 
         private void B_DrawPoly_Click(object sender, EventArgs e)
         {
+            InfoTextBox.Text = "ЛКМ - поставить точку,\n ПКМ - создать полигон.";
             ButtonsEnabler(false); //Отключить кнопки
             _curMode = new MTask1(this);
         }
@@ -251,6 +252,7 @@ namespace Lab4
         {
             if (IsHasPolygons())
             {
+                InfoTextBox.Text = "Выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" смещение X и Y через пробел";
                 ButtonsEnabler(false);
                 _curMode = new MTask31(this);
             }
@@ -316,6 +318,11 @@ namespace Lab4
         private void B_Apply_Click(object sender, EventArgs e)
         {
             _curMode?.Apply(sender, e);
+        }
+
+        private void CB_SelectedPolygon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DrawPolygons();
         }
     }
 }

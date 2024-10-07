@@ -216,6 +216,7 @@
             this.CB_SelectedPolygon.Name = "CB_SelectedPolygon";
             this.CB_SelectedPolygon.Size = new System.Drawing.Size(274, 24);
             this.CB_SelectedPolygon.TabIndex = 13;
+            this.CB_SelectedPolygon.SelectedIndexChanged += new System.EventHandler(this.CB_SelectedPolygon_SelectedIndexChanged);
             // 
             // B_Apply
             // 
