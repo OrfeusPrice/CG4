@@ -73,7 +73,7 @@ namespace Lab4
         //Рисует полигон по точкам
         private void DrawPolygons()
         {
-            _bm = new Bitmap(850, 600);
+            _bm = new Bitmap(_size.Width, _size.Height);
             MainPictureBox.Image = _bm;
             _g = Graphics.FromImage(MainPictureBox.Image);
 
