@@ -250,14 +250,13 @@ namespace Lab4
         //===================
         //      Task4
         //===================
-        
+
         public void FindPoint(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 _pointsT4.Add(e.Location);
                 _bm.SetPixel(e.Location.X, e.Location.Y, _polygonColor);
-                _intFlag++;
                 if (_pointsT4.Count % 2 == 0)
                 {
                     _g.DrawLine(new Pen(_polygonColor), _pointsT4[_pointsT4.Count - 2], _pointsT4[_pointsT4.Count - 1]);
@@ -349,9 +348,45 @@ namespace Lab4
         //===================
         public void Classification(object sender, MouseEventArgs e)
         {
-            //ToDo Классифицировать положение точки относительно ребра (справа или слева)
+            if (e.Button == MouseButtons.Left)
+            {
+                if (_pointsT4.Count < 2)
+                {
+                    _pointsT4.Add(e.Location);
+                    _bm.SetPixel(e.Location.X, e.Location.Y, _polygonColor);
+                    MainPictureBox.Image = _bm;
+                    if (_pointsT4.Count == 2)
+                    {
+                        _g.DrawLine(new Pen(_polygonColor), _pointsT4[0], _pointsT4[1]);
+                        MainPictureBox.Image = _bm;
+                        InfoTextBox.Text = "Поставьте точку.";
+                    }
+                }
+                else if (_pointsT4.Count == 2)
+                {
+                   
+                    _tempPoint = e.Location;
+                    _bm.SetPixel(e.Location.X, e.Location.Y, _polygonColor);
+                    MainPictureBox.Image = _bm;
+                    Point b = new Point(_tempPoint.X - _pointsT4[0].X, _tempPoint.Y - _pointsT4[0].Y);
+                    Point a = new Point(_pointsT4[1].X - _pointsT4[0].X, _pointsT4[1].Y - _pointsT4[0].Y);
+                    float res = b.X * a.Y - b.Y * a.X;
+                    string str;
 
-            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                    if (res > 0) str = "Точка слева от ребра.";
+                    else if (res < 0) str = "Точка справа от ребра.";
+                    else str = "Точка на ребре.";
+                    InfoTextBox.Text = str;
+                }
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                ButtonsEnabler(true);
+                _pointsT4.Clear();
+                DrawPolygons();
+                InfoTextBox.Text = "";
+            }
         }
 
         //===================
