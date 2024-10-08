@@ -46,7 +46,7 @@ namespace Lab4
             public MTask32(Form1 f1) : base(f1) { }
             public override void DoSmth(object sender, MouseEventArgs e)
             {
-                f1?.PointRotate(sender, e);
+                f1?.SetPoint(sender, e);
             }
             public override void Apply(object sender, EventArgs e)
             {
