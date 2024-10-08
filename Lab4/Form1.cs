@@ -271,7 +271,7 @@ namespace Lab4
         //===================
         public void CenterScale(object sender, MouseEventArgs e)
         {
-
+            return;
         }
         public void ApplyCenterScale(object sender, EventArgs e)
         {
@@ -366,11 +366,10 @@ namespace Lab4
 
             else if (e.Button == MouseButtons.Right)
             {
-                _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                SetIdle(); //В конце возвращаем текущий режим в нейтральное состояние
                 ButtonsEnabler(true);
                 _pointsT4.Clear();
                 DrawPolygons();
-                InfoTextBox.Text = "";
             }
         }
 
@@ -428,11 +427,10 @@ namespace Lab4
             }
             else if (e.Button == MouseButtons.Right)
             {
-                _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+                SetIdle(); //В конце возвращаем текущий режим в нейтральное состояние
                 ButtonsEnabler(true);
                 _pointsT4.Clear();
                 DrawPolygons();
-                InfoTextBox.Text = "";
             }
         }
 
@@ -530,6 +528,7 @@ namespace Lab4
 
         private void B_FindPoint_Click(object sender, EventArgs e)
         {
+            InfoTextBox.Text = "Нарисуйте ребро (поставьте 2 точки), затем ещё одно ребро";
             ButtonsEnabler(false);
             _curMode = new MTask4(this);
         }
@@ -545,6 +544,7 @@ namespace Lab4
 
         private void B_Classification_Click(object sender, EventArgs e)
         {
+            InfoTextBox.Text = "Нарисуйте ребро (поставьте 2 точки)";
             ButtonsEnabler(false);
             _curMode = new MTask6(this);
         }
