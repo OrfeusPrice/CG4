@@ -309,6 +309,67 @@ namespace Lab4
                     _g.DrawLine(new Pen(_polygonColor), _pointsT4[_pointsT4.Count - 2], _pointsT4[_pointsT4.Count - 1]);
                 }
                 MainPictureBox.Image = _bm;
+                if (_pointsT4.Count >= 2 && _pointsT4.Count % 2 == 0 && _polygons.Count != 0)
+                {
+                    InfoTextBox.Text = "";
+                    for (int j = 0; j < _polygons.Count; j++)
+                    {
+                        List<Point> polygon = _polygons[j];
+                        if (polygon.Count > 1)
+                        {
+                            for (int l = polygon.Count - 1; l > 0; l -= 1)
+                            {
+                                Point a1 = polygon[l - 1];
+                                Point b1 = polygon[l];
+                                Point c1 = _pointsT4[_pointsT4.Count - 2];
+                                Point d1 = _pointsT4[_pointsT4.Count - 1];
+                                Point n1 = new Point(-(d1.Y - c1.Y), d1.X - c1.X);
+
+                                float t1 = -(float)(n1.X * (a1.X - c1.X) + n1.Y * (a1.Y - c1.Y)) / (n1.X * (b1.X - a1.X) + n1.Y * (b1.Y - a1.Y));
+                                if (n1.X * (b1.X - a1.X) + n1.Y * (b1.Y - a1.Y) == 0)
+                                {
+                                    InfoTextBox.Text += "Прямые параллельны\n";
+                                }
+                                else
+                                {
+                                    Point res = new Point(a1.X + (int)(t1 * (b1.X - a1.X)), a1.Y + (int)(t1 * (b1.Y - a1.Y)));
+                                    if (res.X >= Math.Min(a1.X, b1.X) && res.X <= Math.Max(a1.X, b1.X) && res.Y >= Math.Min(a1.Y, b1.Y) && res.Y <= Math.Max(a1.Y, b1.Y)
+                                        && res.X >= Math.Min(c1.X, d1.X) && res.X <= Math.Max(c1.X, d1.X) && res.Y >= Math.Min(c1.Y, d1.Y) && res.Y <= Math.Max(c1.Y, d1.Y))
+                                    {
+                                        InfoTextBox.Text += $"Точка пересечения - ({res.X}, {res.Y}).\n";
+                                        _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
+                                        MainPictureBox.Image = _bm;
+                                    }
+                                    else InfoTextBox.Text += $"Рёбра не пересекаются.\n";
+                                }
+                            }
+                            Point a = polygon[polygon.Count - 1];
+                            Point b = polygon[0];
+                            Point c = _pointsT4[_pointsT4.Count - 2];
+                            Point d = _pointsT4[_pointsT4.Count - 1];
+                            Point n = new Point(-(d.Y - c.Y), d.X - c.X);
+
+                            float t = -(float)(n.X * (a.X - c.X) + n.Y * (a.Y - c.Y)) / (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y));
+                            if (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y) == 0)
+                            {
+                                InfoTextBox.Text += "Прямые параллельны\n";
+                            }
+                            else
+                            {
+                                Point res = new Point(a.X + (int)(t * (b.X - a.X)), a.Y + (int)(t * (b.Y - a.Y)));
+                                if (res.X >= Math.Min(a.X, b.X) && res.X <= Math.Max(a.X, b.X) && res.Y >= Math.Min(a.Y, b.Y) && res.Y <= Math.Max(a.Y, b.Y)
+                                    && res.X >= Math.Min(c.X, d.X) && res.X <= Math.Max(c.X, d.X) && res.Y >= Math.Min(c.Y, d.Y) && res.Y <= Math.Max(c.Y, d.Y))
+                                {
+                                    InfoTextBox.Text += $"Точка пересечения - ({res.X}, {res.Y}).\n";
+                                    _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
+                                    MainPictureBox.Image = _bm;
+                                }
+                                else InfoTextBox.Text += $"Рёбра не пересекаются.\n";
+                            }
+
+                        }
+                    }
+                }
                 if (_pointsT4.Count == 4)
                 {
                     Point a = _pointsT4[_pointsT4.Count - 4];
@@ -319,22 +380,27 @@ namespace Lab4
                     float t = -(float)(n.X * (a.X - c.X) + n.Y * (a.Y - c.Y)) / (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y));
                     if (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y) == 0)
                     {
-                        InfoTextBox.Text = "Прямые параллельны";
+                        InfoTextBox.Text += "Прямые параллельны";
                     }
                     else
                     {
                         Point res = new Point(a.X + (int)(t * (b.X - a.X)), a.Y + (int)(t * (b.Y - a.Y)));
-                        _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
-                        MainPictureBox.Image = _bm;
                         if (res.X >= Math.Min(a.X, b.X) && res.X <= Math.Max(a.X, b.X) && res.Y >= Math.Min(a.Y, b.Y) && res.Y <= Math.Max(a.Y, b.Y)
                             && res.X >= Math.Min(c.X, d.X) && res.X <= Math.Max(c.X, d.X) && res.Y >= Math.Min(c.Y, d.Y) && res.Y <= Math.Max(c.Y, d.Y))
-                            InfoTextBox.Text = $"Точка пересечения - ({res.X}, {res.Y}).";
-                        else InfoTextBox.Text = $"Рёбра не пересекаются.";
+                        {
+                            InfoTextBox.Text += $"Точка пересечения - ({res.X}, {res.Y}).\n";
+                            _g.DrawRectangle(new Pen(_selectedPolygonColor), res.X, res.Y, 1, 1);
+                            MainPictureBox.Image = _bm;
+                        }
+                        else InfoTextBox.Text += $"Рёбра не пересекаются.";
                     }
                 }
                 else if (_pointsT4.Count >= 4 && _pointsT4.Count % 2 == 0)
                 {
-                    InfoTextBox.Text = "";
+                    if (_polygons.Count == 0)
+                    {
+                        InfoTextBox.Text = "";
+                    }
                     for (int i = _pointsT4.Count - 3; i > 0; i -= 2)
                     {
                         Point a = _pointsT4[i - 1];
