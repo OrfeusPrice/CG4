@@ -378,13 +378,52 @@ namespace Lab4
         //===================
         public void Check(object sender, MouseEventArgs e)
         {
-            //ToDo Проверка принадлежит ли заданная пользователем (с помощью мыши) точка выпуклому и невыпуклому полигонам
+            if (e.Button == MouseButtons.Left)
+            {
+                _g.FillRectangle(new SolidBrush(Color.White), _tempPoint.X, _tempPoint.Y, 3, 3);
+                DrawPolygons();
+                _tempPoint = e.Location;
+                _g.FillRectangle(new SolidBrush(Color.Red), _tempPoint.X, _tempPoint.Y, 3, 3);
+                MainPictureBox.Image = _bm;
 
+                List<Point> l;
+                if (CB_SelectedPolygon.SelectedIndex == 0)
+                {
+                    l = new List<Point>(_polygons[0]);
+                }
+                else
+                {
+                    l = new List<Point>(_polygons[CB_SelectedPolygon.SelectedIndex - 1]);
+                }
+                int cnt = 0;
+                if (l.Count > 2)
+                {
+                    Point a = _tempPoint;
+                    Point b = new Point(_tempPoint.X + 1, _tempPoint.Y);
+                    for (int i = 0; i < l.Count; i++)
+                    {
+                        Point c = l[i];
+                        Point d = l[(i + 1) % l.Count];
+                        Point n = new Point(-(d.Y - c.Y), d.X - c.X);
+                        float t = -(float)(n.X * (a.X - c.X) + n.Y * (a.Y - c.Y)) / (n.X * (b.X - a.X) + n.Y * (b.Y - a.Y));
+                        Point res = new Point(a.X + (int)(t * (b.X - a.X)), a.Y + (int)(t * (b.Y - a.Y)));
+                        if (res.X >= Math.Min(c.X, d.X) && res.X <= Math.Max(c.X, d.X) && res.X > a.X) cnt++;
+                        
+                    }
+                }
+
+                if (cnt % 2 == 0)
+                    InfoTextBox.Text = "Точка не лежит внутри полигона.";
+                else
+                {
+                    InfoTextBox.Text = "Точка лежит внутри полигона";
+                }
+            }
         }
         public void ApplyCheck(object sender, EventArgs e)
         {
-            //ToDo После выбора точки и полигона нажать на кнопку "Применить" и написать, принадлежит точка или нет
-
+            _g.FillRectangle(new SolidBrush(Color.White), _tempPoint.X, _tempPoint.Y, 3, 3);
+            DrawPolygons();
             SetIdle(); //В конце возвращаем текущий режим в нейтральное состояние
             ButtonsEnabler(true); //Включаем кнопочки
         }
@@ -538,6 +577,7 @@ namespace Lab4
             if (IsHasPolygons())
             {
                 ButtonsEnabler(false);
+                InfoTextBox.Text = "С помощью ЛКМ обозначьте точку для проверки";
                 _curMode = new MTask5(this);
             }
         }
