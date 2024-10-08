@@ -117,8 +117,8 @@ namespace Lab4
                 _polygons.Add(new List<Point>(_points));
                 CB_SelectedPolygon.Items.Add($"P{_polygons.Count}");
                 _points.Clear();
-                _curMode = new Mode(this);
-                InfoTextBox.Text = "";
+                
+                SetIdle();
                 DrawPolygons();
                 ButtonsEnabler(true); //Включить кнопки
             }
@@ -167,9 +167,10 @@ namespace Lab4
             {
                 for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
                     _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = GetMovedPoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], dx, dy);
+                
                 ButtonsEnabler(true);
                 DrawPolygons();
-                _curMode = new Mode(this);
+                SetIdle();
             }
 
         }
@@ -177,7 +178,7 @@ namespace Lab4
         //===================
         //      Task32
         //===================
-        public void PointRotate(object sender, MouseEventArgs e)
+        public void SetPoint(object sender, MouseEventArgs e)
         {
             if (_pointFlag)
             {
@@ -204,7 +205,8 @@ namespace Lab4
 
             for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
                 _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = RotatePoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], _tempPoint, rotation);
-            _curMode = new Mode(this);
+
+            SetIdle();
             ButtonsEnabler(true);
 
             _polygons.Remove(_polygons.Last());
@@ -216,11 +218,23 @@ namespace Lab4
         //===================
         public void CenterRotate(object sender, MouseEventArgs e)
         {
-
+            return;
         }
         public void ApplyCenterRotate(object sender, EventArgs e)
         {
+            int rotation;
+            if (CB_SelectedPolygon.SelectedIndex == 0 || !int.TryParse(InputTextBox.Text, out rotation))
+            {
+                InfoTextBox.Text = "Ошибка. Выберите полигон в списке \"Полигон\", \\nНапишите в поле \"Значение\" угол поворота";
+                return;
+            }
+            Point tempP = GetPolygonCenter(_polygons[CB_SelectedPolygon.SelectedIndex - 1]);
+            for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
+                _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = RotatePoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], tempP, rotation);
 
+            SetIdle();
+            ButtonsEnabler(true);
+            DrawPolygons();
         }
 
         //===================
@@ -228,11 +242,28 @@ namespace Lab4
         //===================
         public void PointScale(object sender, MouseEventArgs e)
         {
-
+            SetPoint(sender, e);
         }
         public void ApplyPointScale(object sender, EventArgs e)
         {
+            double kx;
+            double ky;
+            string[] input = InputTextBox.Text.Split(' ');
 
+            if (input.Length !=  2 || CB_SelectedPolygon.SelectedIndex == 0 || !double.TryParse(input[0], out kx) || !double.TryParse(input[1], out ky) || _pointFlag)
+            {
+                InfoTextBox.Text = "Ошибка. Поставьте точку, выберите полигон в списке \"Полигон\", \\nНапишите в поле \"Значение\" 2 числа: масштабирование по X и по Y";
+                return;
+            }
+            for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
+                _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = ScalePoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], _tempPoint, kx,ky);
+
+            SetIdle();
+            ButtonsEnabler(true);
+            
+            _polygons.Remove(_polygons.Last());
+            DrawPolygons();
+            _pointFlag = true;
         }
 
         //===================
@@ -244,13 +275,29 @@ namespace Lab4
         }
         public void ApplyCenterScale(object sender, EventArgs e)
         {
+            double kx;
+            double ky;
+            string[] input = InputTextBox.Text.Split(' ');
 
+            if (input.Length != 2 || CB_SelectedPolygon.SelectedIndex == 0 || !double.TryParse(input[0], out kx) || !double.TryParse(input[1], out ky))
+            {
+                InfoTextBox.Text = "Ошибка. Выберите полигон в списке \"Полигон\", \\nНапишите в поле \"Значение\" 2 числа: масштабирование по X и по Y";
+                return;
+            }
+
+            Point tempP = GetPolygonCenter(_polygons[CB_SelectedPolygon.SelectedIndex - 1]);
+            for (int i = 0; i < _polygons[CB_SelectedPolygon.SelectedIndex - 1].Count; i++)
+                _polygons[CB_SelectedPolygon.SelectedIndex - 1][i] = ScalePoint(_polygons[CB_SelectedPolygon.SelectedIndex - 1][i], tempP, kx, ky);
+
+            SetIdle();
+            ButtonsEnabler(true);
+            DrawPolygons();
         }
 
         //===================
         //      Task4
         //===================
-        
+
         public void FindPoint(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -340,7 +387,7 @@ namespace Lab4
         {
             //ToDo После выбора точки и полигона нажать на кнопку "Применить" и написать, принадлежит точка или нет
 
-            _curMode = new Mode(this); //В конце возвращаем текущий режим в нейтральное состояние
+            SetIdle(); //В конце возвращаем текущий режим в нейтральное состояние
             ButtonsEnabler(true); //Включаем кнопочки
         }
 
@@ -358,6 +405,12 @@ namespace Lab4
         //Остальные функции
         //===================
 
+        void SetIdle()
+        {
+            _curMode = new Mode(this);
+            InfoTextBox.Text = "";
+        }
+
         bool IsHasPolygons()
         {
             if (_polygons.Count > 0) return true;
@@ -370,7 +423,7 @@ namespace Lab4
 
         private void MainPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            _curMode.DoSmth(sender, e);
+            _curMode?.DoSmth(sender, e);
         }
 
         private void B_Apply_Click(object sender, EventArgs e)
@@ -414,6 +467,7 @@ namespace Lab4
         {
             if (IsHasPolygons())
             {
+                InfoTextBox.Text = "Выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" угол поворота";
                 ButtonsEnabler(false);
                 _curMode = new MTask33(this);
             }
@@ -423,6 +477,7 @@ namespace Lab4
         {
             if (IsHasPolygons())
             {
+                InfoTextBox.Text = "Поставьте точку, выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" 2 числа: масштабирование по X и по Y";
                 ButtonsEnabler(false);
                 _curMode = new MTask34(this);
             }
@@ -432,6 +487,7 @@ namespace Lab4
         {
             if (IsHasPolygons())
             {
+                InfoTextBox.Text = "Выберите полигон в списке \"Полигон\", \nНапишите в поле \"Значение\" 2 числа: масштабирование по X и по Y";
                 ButtonsEnabler(false);
                 _curMode = new MTask35(this);
             }
